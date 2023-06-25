@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  overflow: hidden;
+  margin: 0;
+}
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+</style>
+</head>
+<body>
+<canvas id="myCanvas">
+Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+<script>
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+var t = 0;
+
+function S(val) { return Math.sin(val); }
+function C(val) { return Math.cos(val); }
+function T(val) { return Math.tan(val); }
+function R(r, g, b, a) { return "rgba(" + r + "," + g + "," + b + "," + a + ")"; }
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for(var i = 99; i--; ctx.fill()) {
+    ctx.fillStyle = R(255 * T(i + t), 99 * T(i + t), i, 1);
+    ctx.beginPath();
+    ctx.arc(canvas.width / 2 + S(i * t / 2) * i, canvas.height / 2 + S(i * t / 2) * i + C(t / 2) * 50, i * i + S(i * t / 2), 0, 10);
+  }
+
+  ctx.globalCompositeOperation = 'difference';
+
+  ctx.font = "50px Arial";
+  ctx.fillStyle = "white";
+  ctx.textAlign = "center";
+  ctx.fillText("UNDER CONSTRUCTION", canvas.width / 2, canvas.height / 2);
+
+  ctx.globalCompositeOperation = 'source-over';
+
+  t += 0.01;
+
+  requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+
+</body>
+</html>
